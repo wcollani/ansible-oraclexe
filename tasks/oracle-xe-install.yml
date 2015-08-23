@@ -12,7 +12,7 @@
 
   - copy: src={{item}} dest=/tmp/ owner=root group=root mode=0755
     with_fileglob:
-      - oracle-xe-*.rpm
+      - oracle-xe*.deb
 
   - include: oracle-xe-install-debian.yml
     when: ansible_os_family == "Debian"

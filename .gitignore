@@ -1,1 +1,3 @@
 .vagrant
+files/*.deb
+files/*.rpm
