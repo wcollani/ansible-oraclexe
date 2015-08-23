@@ -10,9 +10,15 @@
 
   - file: path=/u01/app/oracle owner=oracle group=dba recurse=yes state=directory
 
-  - copy: src={{item}} dest=/tmp/ owner=root group=root mode=0755
-    with_fileglob:
-      - oracle-xe*.deb
+  - apt: name=python-boto state=latest update_cache=yes cache_valid_time=3600
+
+  - s3: bucket=bsg-binaries object=oracle-xe_11.2.0-2_amd64.deb dest=/tmp/oracle-xe_11.2.0-2_amd64.deb mode=get aws_access_key={{aws_key}} aws_secret_key={{aws_seckey}}
+
+  - file: path=/tmp/oracle-xe_11.2.0-2_amd64.deb owner=root group=root mode=0755 state=file
+
+#  - copy: src={{item}} dest=/tmp/ owner=root group=root mode=0755
+#    with_fileglob:
+#      - oracle-xe*.deb
 
   - include: oracle-xe-install-debian.yml
     when: ansible_os_family == "Debian"
